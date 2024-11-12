@@ -239,14 +239,14 @@ def makeWinSave(title):
         [sg.Frame('Table for Registry Data Added/Deleted', font=("Helvetica", 12, "bold"), layout=[
             [
                 sg.Table(
-                    values=displayed_editor_data,  # Populate with displayed_editor_data
+                    values=displayed_editor_data,
                     headings=["Registry Key/Subkey Path", "Registry Name", "Type", "Data", "Action Taken"],
                     auto_size_columns=False,
                     vertical_scroll_only=False,
                     justification="left",
                     num_rows=20,
                     key="-TABLE_REG_ADDED_DELETED-",
-                    col_widths=[40, 20, 30, 15, 15],  # Adjust column widths
+                    col_widths=[40, 20, 30, 15, 15],
                     background_color="#045D5D",
                     text_color="white",
                     bind_return_key=True,
@@ -273,7 +273,7 @@ def makeWinSave(title):
                     justification="left",
                     num_rows=10,
                     key="-TABLE_REG_EDITED-",
-                    col_widths=[40, 20, 15, 15, 30, 30],  # Adjust column widths
+                    col_widths=[40, 20, 15, 15, 30, 30],
                     background_color="#045D5D",
                     text_color="white",
                     bind_return_key=True,
@@ -421,11 +421,11 @@ def makeWinSave(title):
                     write_into_event_log("No changes to discard.")
 
                 # Step 2: Clear the table and reset the state on Page 4
-                window['-TABLE_EDITOR-'].update(values=[])  # Set the table to empty
+                window['-TABLE_EDITOR-'].update(values=[])
 
                 # Clear the machine type selection and browse path
-                window['Dropdown2'].update(value='MicroAOI')  # Reset dropdown value to default
-                window['-BROWSE2-'].update('Browse')  # Clear browse button path
+                window['Dropdown2'].update(value='MicroAOI')
+                window['-BROWSE2-'].update('Browse')
                 window['-BROWSE2-'].update(disabled=False)
 
                 reset_page4_state(window)
@@ -542,10 +542,10 @@ def makeWin4Restore(added_deleted_entries, edited_entries):
                 os.remove(action_temp_path)
 
                 # Clear the table and reset the state on Page 4 (similar to makeWinSave)
-                window['-TABLE_EDITOR-'].update(values=[])  # Clear the table
-                window['Dropdown2'].update(value='MicroAOI')  # Reset dropdown
-                window['-BROWSE2-'].update('Browse')  # Clear browse button path
-                window['-BROWSE2-'].update(disabled=False)  # Re-enable browse button
+                window['-TABLE_EDITOR-'].update(values=[])
+                window['Dropdown2'].update(value='MicroAOI')
+                window['-BROWSE2-'].update('Browse')
+                window['-BROWSE2-'].update(disabled=False)
 
                 # Reset buttons
                 window['-ADD_NEW-'].update(visible=False)
@@ -560,14 +560,14 @@ def makeWin4Restore(added_deleted_entries, edited_entries):
         if event_restore == "-DISCARD_RESTORE-":
             confirmation = sg.popup_yes_no("Are you sure you want to discard the changes?")
             if confirmation == "Yes":
-                os.remove(action_temp_path)  # Remove the action temp file
+                os.remove(action_temp_path)
                 sg.popup_ok("Changes discarded.")
 
                 # Clear the table and reset the state on Page 4 (similar to makeWinSave)
-                window['-TABLE_EDITOR-'].update(values=[])  # Clear the table
-                window['Dropdown2'].update(value='MicroAOI')  # Reset dropdown
-                window['-BROWSE2-'].update('Browse')  # Clear browse button path
-                window['-BROWSE2-'].update(disabled=False)  # Re-enable browse button
+                window['-TABLE_EDITOR-'].update(values=[])
+                window['Dropdown2'].update(value='MicroAOI')
+                window['-BROWSE2-'].update('Browse')
+                window['-BROWSE2-'].update(disabled=False)
 
                 # Reset buttons
                 window['-ADD_NEW-'].update(visible=False)
@@ -603,9 +603,9 @@ def write_edit_temp_file(machine_type, changes, action):
         if isinstance(change, list):
             change = {
                 'Registry Key/Subkey Path': change[0],  # path
-                'Registry Name': change[1],  # name
-                'Data': change[2],  # current data
-                'Type': change[3],  # current type
+                'Registry Name': change[1],
+                'Data': change[2],
+                'Type': change[3],
                 'Action': action
             }
 
@@ -650,7 +650,7 @@ def write_edit_temp_file(machine_type, changes, action):
 def preserve_table_state(table_values):
     """Preserve the checkbox and sorting state before updating the table."""
     # Save the checkbox states
-    checkbox_states = [row[0] for row in table_values]  # Store the checkbox state (Checked or Blank)
+    checkbox_states = [row[0] for row in table_values]
 
     # Save sorting order if necessary (e.g., which column was sorted and in which direction)
     # Assuming the sorting order is already stored in the handle_table_selection_page4
@@ -661,7 +661,7 @@ def reapply_table_state(window, table_key, table_values, checkbox_states):
     """Reapply the checkbox and sorting state after updating the table."""
     for i, row in enumerate(table_values):
         # Restore the checkbox state
-        row[0] = checkbox_states[i] if i < len(checkbox_states) else BLANK_BOX  # Reapply checkbox states
+        row[0] = checkbox_states[i] if i < len(checkbox_states) else BLANK_BOX
 
     # Update the table with the restored state
     window[table_key].update(values=table_values)
@@ -816,10 +816,10 @@ def backup_deleted_registry_page4(exported_file, backup_folder):
         for entry in exported_data:
             # Ensure that the data follows the format [Path, Name, Type, Data]
             reordered_entry = [
-                entry[0],  # Registry Path
-                entry[1],  # Registry Name
-                entry[3],  # Registry Type (should be at 3rd index)
-                entry[2]   # Registry Data (should be at 4th index)
+                entry[0],
+                entry[1],
+                entry[3],
+                entry[2]
             ]
             correct_ordered_data.append(reordered_entry)
 
@@ -1092,7 +1092,7 @@ def write_to_json(data, filename):
         print(f"Error writing to file {file_path}: {e}")
 
 
-# Globale defined the log txt file naming
+# Global defined the log txt file naming
 event_log_file_path = get_current_file_path('log//[EventLog]_' + scurrent_time + '.txt')
 error_log_file_path = get_current_file_path('log//[ErrorLog]_' + scurrent_time + '.txt')
 
@@ -1146,7 +1146,7 @@ def write_into_error_log(content):
 def get_sample_file():
     # to choose the sample file (got 4 type, semicon, smt, microAOI, side cam)
     file_exist = False
-    # to get the sample file user want to use for compaere the registry
+    # to get the sample file user want to use for compare the registry
     while file_exist == False:
         file_path = sg.popup_get_file("Select 'REGISTRY' file for Registry Checking", title="File selector",
                                       no_window=True, file_types=(('JSON', '*.json'),))
@@ -1322,7 +1322,7 @@ def update_reg_gui():
 
         # Assign fixed sequential indices starting from 1 after sorting
         final_data = [
-            [index + 1] + row[1:]  # Adding sequential index to the "List" column
+            [index + 1] + row[1:]
             for index, row in enumerate(sorted_data)
         ]
 
@@ -1774,7 +1774,7 @@ def generate_redundant_data(software_pc_data, current_pc_reg_data):
         # Determine the status based on whether a match was found
         if matched_registry:
             status = 'Pass'
-            matched_registry_item = matched_registry[0]  # Assume first match is used
+            matched_registry_item = matched_registry[0]
             matched_registry_dict = {
                 'Registry Key/Subkey Path': matched_registry_item[0],
                 'Registry Name': matched_registry_item[1],
@@ -1896,14 +1896,14 @@ def generate_compared_results(sample_reg_pc_data, current_pc_reg_data):
 
             # Differentiation for `Pass` and `Fail`
             if status == 'Pass':
-                status = 'Pass'  # All details match
+                status = 'Pass'
             elif status == 'Fail':
-                status = 'Fail'  # Mismatched type or data
+                status = 'Fail'
 
         else:
             # Item is not found in current data; determine if it’s `Missing`, `Exist`, or `Not Exist`
             if registry_name.lower() in ['password', 'calib3dpassword']:
-                status = 'Exist'  # Treated as `Exist` if it's a password or similar sensitive key
+                status = 'Exist'
                 matched_registry_dict = {
                     'Registry Key/Subkey Path': registry_path,
                     'Registry Name': registry_name,
@@ -2188,7 +2188,7 @@ def export_file(exported_file):
 
     # Generate a unique backup file name using current timestamp
     timestamp = datetime.datetime.now().strftime('%Y%m%d_%H%M%S')
-    backup_filename = f"{exported_file[:-5]}_{timestamp}.json"  # Appending timestamp before extension
+    backup_filename = f"{exported_file[:-5]}_{timestamp}.json"
 
     # Construct the full path for backup file
     backup_path = os.path.join(export_file_path, backup_filename)
@@ -2369,9 +2369,9 @@ def get_valid_integer_input2(window):
             sg.popup_error("Please enter a valid integer.", title="Error")
             window.find_element("-ADD_DATA-").update('')  # Optionally clear the field
             # window.find_element("-SAVE-").update(disabled=True)  # Disable save button until valid input is entered
-            event, _ = window.read()  # Wait for user input
+            event, _ = window.read()
             if event == sg.WIN_CLOSED:
-                return None  # Exit if the window is closed
+                return None
 
 
 # get the  updated data
@@ -2412,7 +2412,7 @@ def edit_selected_data(selected_edit_data, window):
                 if edit_data is not None:
                     edit_data = f'0x{int(edit_data):08X}'  # Convert from decimal to hexadecimal
                 else:
-                    return []  # Exit if user cancels or closes the window
+                    return []
 
             elif hex_selected:
                 # Ensure the hex string is formatted correctly
@@ -2426,9 +2426,9 @@ def edit_selected_data(selected_edit_data, window):
             if decimal_selected:
                 edit_data = get_valid_integer_input3(window)
                 if edit_data is not None:
-                    edit_data = f'0x{int(edit_data):016X}'  # Convert from decimal to hexadecimal
+                    edit_data = f'0x{int(edit_data):016X}'
                 else:
-                    return []  # Exit if user cancels or closes the window
+                    return []
             elif hex_selected:
                 edit_data = f'0x{edit_data.upper().zfill(16)}'
 
@@ -2455,11 +2455,11 @@ def get_valid_integer_input3(window):
             return edited_data
         else:
             sg.popup_error("Please enter a valid integer.", title="Error")
-            window.find_element("-PAGE4_EDIT_DATA-").update('')  # Optionally clear the field
+            window.find_element("-PAGE4_EDIT_DATA-").update('')
             # window.find_element("-SAVE-").update(disabled=True)  # Disable save button until valid input is entered
-            event, _ = window.read()  # Wait for user input
+            event, _ = window.read()
             if event == sg.WIN_CLOSED:
-                return None  # Exit if the window is closed
+                return None
 
 
 def handle_table_selection4(window, event, values):
@@ -2517,10 +2517,10 @@ def handle_table_selection4(window, event, values):
                 for i in selected_list_index:
                     row = table_values[i]
                     matched_registry_dict = [
-                        row[1],  # Registry Key/Subkey Path
-                        row[2],  # Registry Name
-                        row[4],  # Registry Data
-                        row[3]   # Registry Type
+                        row[1],
+                        row[2],
+                        row[4],
+                        row[3]
                     ]
                     result.append(matched_registry_dict)
 
@@ -2564,10 +2564,10 @@ def handle_table_selection4(window, event, values):
                         for i in selected_list_index:
                             row = table_values[i]
                             matched_registry_dict = [
-                                row[1],  # Registry Key/Subkey Path
-                                row[2],  # Registry Name
-                                row[4],  # Registry Data
-                                row[3]   # Registry Type
+                                row[1],
+                                row[2],
+                                row[4],
+                                row[3]
                             ]
                             result.append(matched_registry_dict)
 
@@ -2687,7 +2687,7 @@ def import_registry(registry_keys):
                     # If registry type is 'Default', set as REG_BINARY
                     if registry_type == "Default":
                         reg_type = winreg.REG_BINARY
-                        value_data = value_data.encode()  # Convert value data to bytes
+                        value_data = value_data.encode()
 
                     if reg_type is None:
                         print(f"Unsupported registry type '{registry_type}' for key '{key_path}\\{value_name}'")
@@ -2740,7 +2740,7 @@ def import_selected_registry_result(registry_keys):
             key_path = key['Registry Key/Subkey Path']
             value_name = key['Registry Name']
             value_data = key['Expected Data']
-            registry_type = key['Expected Type']  # sample type
+            registry_type = key['Expected Type']
             current_type = key['Current Type']
             current_data = key['Current Data']
 
@@ -2758,7 +2758,7 @@ def import_selected_registry_result(registry_keys):
                     # If registry type is 'Default', set as REG_BINARY
                     if registry_type == "Default":
                         reg_type = winreg.REG_BINARY
-                        value_data = value_data.encode()  # Convert value data to bytes
+                        value_data = value_data.encode()
 
                     if reg_type is None:
                         print(f"Unsupported registry type '{registry_type}' for key '{key_path}\\{value_name}'")
@@ -2863,7 +2863,7 @@ def restore_selected_registry_result(registry_keys):
                     # If registry type is 'Default', set as REG_BINARY
                     if registry_type == "Default":
                         reg_type = winreg.REG_BINARY
-                        value_data = value_data.encode()  # Convert value data to bytes
+                        value_data = value_data.encode()
 
                     if reg_type is None:
                         print(f"Unsupported registry type '{registry_type}' for key '{key_path}\\{value_name}'")
@@ -3040,7 +3040,7 @@ def compare_missing_registries(current_pc_reg_data, software_pc_data):
 # functions for page 4
 
 def update_editor_gui(file_path):
-    editor_data = []  # Initialize as an empty list
+    editor_data = []
     try:
         json_file_path = get_current_file_path(file_path)
         os.makedirs(os.path.dirname(json_file_path), exist_ok=True)
@@ -3193,12 +3193,12 @@ def compare_sizes(selected_folder, item_sizes):
     missing_apps = set(item_sizes.keys())
 
     for root, dirs, files in os.walk(selected_folder):
-        for file in files:  # for key values (file) in files)
-            file_path = os.path.join(root, file)  # joining 'os.path' and file
+        for file in files:
+            file_path = os.path.join(root, file)
             if os.path.basename(file_path) in item_sizes:
-                size = os.path.getsize(file_path)  # get the current size of the current file in system
+                size = os.path.getsize(file_path)
                 expected_size = item_sizes[
-                    os.path.basename(file_path)]  # Reference value # size we want listed in json file
+                    os.path.basename(file_path)]
                 missing_apps.discard(os.path.basename(file_path))
                 result_data.append((os.path.basename(file_path), expected_size, size,
                                     "Pass" if int(size) == int(expected_size) else "Failed"))
@@ -3298,9 +3298,9 @@ def create_page1_layout():
             sg.Column(layout=[
                 [sg.Frame('List of Missing/Failed Status', font=("Helvetica", 12, "bold"), layout=[
                     [sg.Multiline("", key="-MISSING_FAILED-", size=(80, 10), disabled=True, background_color="#045D5D",
-                                  text_color="white", expand_x=True, expand_y=True)],  # Enable multiline expansion
-                ], element_justification="left", size=(1505, 250), expand_x=True, expand_y=True)],  # Enable frame expansion
-            ], expand_x=True, expand_y=True),  # Enable column expansion
+                                  text_color="white", expand_x=True, expand_y=True)],
+                ], element_justification="left", size=(1505, 250), expand_x=True, expand_y=True)],
+            ], expand_x=True, expand_y=True),
         ],
     ]
 
@@ -3345,8 +3345,8 @@ def create_page2_layout():
                 row_colors=[("white", "#045D5D"), ("white", "yellow"), ("white", "red")],
                 enable_events=True,
                 enable_click_events=True,
-                expand_x=True,  # Allow horizontal expansion
-                expand_y=True   # Allow vertical expansion
+                expand_x=True,
+                expand_y=True
             ),
         ],
         [
@@ -3356,14 +3356,14 @@ def create_page2_layout():
                     [sg.Text("Number of Matched Sizes Found:"), sg.Push(), sg.Text("0", font=("Helvetica", 12, "bold"), key="-MATCHED_SIZE-")],
                     [sg.Text("Number of Sizes Found:"), sg.Push(), sg.Text("0", font=("Helvetica", 12, "bold"), key="-FOUND_SIZE-")],
                     [sg.Text("Number of Sizes Not Found:"), sg.Push(), sg.Text("0", font=("Helvetica", 12, "bold"), key="-NOT_FOUND_SIZE-")],
-                ], element_justification="left", size=(400, 250), expand_x=True, expand_y=True)],  # Match layout size with Page 1
+                ], element_justification="left", size=(400, 250), expand_x=True, expand_y=True)],
             ], expand_y=True),
 
             sg.Column(layout=[
                 [sg.Frame('List of Incorrect Sizes Applications', font=("Helvetica", 12, "bold"), layout=[
                     [sg.Multiline("", key="-INCORRECT_SIZES-", size=(80, 10), disabled=True, background_color="#045D5D",
-                                  text_color="white", expand_x=True, expand_y=True)],  # Enable multiline expansion
-                ], element_justification="left", size=(1505, 250), expand_x=True, expand_y=True)],  # Match layout size with Page 1
+                                  text_color="white", expand_x=True, expand_y=True)],
+                ], element_justification="left", size=(1505, 250), expand_x=True, expand_y=True)],
             ], expand_x=True, expand_y=True),
         ],
     ]
@@ -3643,11 +3643,11 @@ def update_gui():
         row_colors = []
         for _, _, _, _, status in updated_data:
             if status == "Failed":
-                row_colors.append(("white", "red"))  # White text on red background for "Failed"
+                row_colors.append(("white", "red"))
             elif status == "Missing":
-                row_colors.append(("white", "yellow"))  # White text on yellow background for "Missing"
+                row_colors.append(("white", "yellow"))
             else:
-                row_colors.append(("white", "#045D5D"))  # White text on default background
+                row_colors.append(("white", "#045D5D"))
 
         # Update the table with the latest data and row colors
         window["-TABLE-"].update(values=updated_data, row_colors=row_colors)
@@ -4487,7 +4487,7 @@ def handle_table_selection2(window, event, values):
                                     'Type': row[3],
                                     'Data': row[4]
                                 }
-                                result.append(matched_registry_dict)  # Append each row's dictionary to the result list
+                                result.append(matched_registry_dict)
 
                             print(f"Result: {result}")
 
@@ -4561,7 +4561,7 @@ def handle_table_selection3(window, event, values):
                             'Type': row[3],
                             'Data': row[4]
                         }
-                        result.append(matched_registry_dict)  # Append each row's dictionary to the result list
+                        result.append(matched_registry_dict)
             else:
                 # Handle row clicks (non-header clicks)
                 if isinstance(row_index, int) and row_index >= 0:
@@ -4605,7 +4605,7 @@ def handle_table_selection3(window, event, values):
                                     'Type': row[3],
                                     'Data': row[4]
                                 }
-                                result.append(matched_registry_dict)  # Append each row's dictionary to the result list
+                                result.append(matched_registry_dict)
 
                             print(f"Result: {result}")
 
@@ -4721,9 +4721,9 @@ def edit_selected_row(selected_redundant_data, window):
             if decimal_selected:
                 edit_data = get_valid_integer_input(window)
                 if edit_data is not None:
-                    edit_data = f'0x{int(edit_data):08X}'  # Convert from decimal to hexadecimal
+                    edit_data = f'0x{int(edit_data):08X}'
                 else:
-                    return []  # Exit if user cancels or closes the window
+                    return []
 
             elif hex_selected:
                 # Ensure the hex string is formatted correctly
@@ -4737,15 +4737,15 @@ def edit_selected_row(selected_redundant_data, window):
             if decimal_selected:
                 edit_data = get_valid_integer_input(window)
                 if edit_data is not None:
-                    edit_data = f'0x{int(edit_data):016X}'  # Convert from decimal to hexadecimal
+                    edit_data = f'0x{int(edit_data):016X}'
                 else:
-                    return []  # Exit if user cancels or closes the window
+                    return []
             elif hex_selected:
                 edit_data = f'0x{edit_data.upper().lstrip("0X")}'
 
         elif edit_type == "Multi-String":
             updated_edit_type = "REG_MULTI_SZ"
-            edit_data = window.find_element("-EDIT_DATA-").get().split('\0')  # Split by null characters
+            edit_data = window.find_element("-EDIT_DATA-").get().split('\0')
             edit_data = str(edit_data)
 
         elif edit_type == "Expandable String":
@@ -4769,11 +4769,11 @@ def get_valid_integer_input(window):
             return edit_data
         else:
             sg.popup_error("Please enter a valid integer.", title="Error")
-            window.find_element("-EDIT_DATA-").update('')  # Optionally clear the field
-            # window.find_element("-SAVE-").update(disabled=True)  # Disable save button until valid input is entered
-            event, _ = window.read()  # Wait for user input
+            window.find_element("-EDIT_DATA-").update('')
+            # window.find_element("-SAVE-").update(disabled=True)
+            event, _ = window.read()
             if event == sg.WIN_CLOSED:
-                return None  # Exit if the window is closed
+                return None
 
 
 def is_decimal(value):
@@ -5177,12 +5177,12 @@ while True:
             confirm_save = sg.popup_yes_no("You have unsaved changes. Do you want to save before exiting?",
                                            title="Unsaved Changes")
             if confirm_save == "Yes":
-                save_status = makeWinSave("Save Registry Changes")  # Open save summary page
+                save_status = makeWinSave("Save Registry Changes")
                 if save_status == "saved" or save_status == "discarded":
                     table_changed = False
                     window['-SAVE_GOLDEN_FILE-'].metadata = False
                     window['-SAVE_GOLDEN_FILE-'].update(disabled=True)
-                    window['-BROWSE2-'].update(disabled=False)  # Re-enable Browse button
+                    window['-BROWSE2-'].update(disabled=False)
             elif confirm_save == "No":
                 delete_temp_files("data")  # Clean up temporary files
                 window.close()  # Close the application
@@ -5221,17 +5221,17 @@ while True:
             )
 
             if confirm_save == "Yes":
-                save_status = makeWinSave("Save Registry Changes")  # Open save summary page
+                save_status = makeWinSave("Save Registry Changes")
                 if save_status in ["saved", "discarded"]:
                     table_changed = False
                     window['-SAVE_GOLDEN_FILE-'].metadata = False
                     window['-SAVE_GOLDEN_FILE-'].update(disabled=True)
-                    window['-BROWSE2-'].update(disabled=False)  # Re-enable Browse button
+                    window['-BROWSE2-'].update(disabled=False)
                 # Proceed to the selected tab
                 window["-TABS-"].update(selected_tab)
 
             elif confirm_save == "No":
-                delete_temp_files("data")  # Clean up temporary files
+                delete_temp_files("data")
                 table_changed = False
                 window['-SAVE_GOLDEN_FILE-'].metadata = False
                 window['-SAVE_GOLDEN_FILE-'].update(disabled=True)
@@ -5258,7 +5258,7 @@ while True:
                 else:
                     sg.popup_error("Incorrect password! Access denied.")
                     # Redirect back to another tab if the password is incorrect
-                    window["-TABS-"].Widget.select(0)  # Redirects to the first tab as an example
+                    window["-TABS-"].Widget.select(0)
                     window["-STATUS-"].update("Access denied to Page 4: Registry Editor.")
             else:
                 print("Password requirement is disabled for Page 4. Access granted.")
@@ -5283,7 +5283,7 @@ while True:
         folder_path = sg.popup_get_folder("Select 'GNU' Folder for Size Checking", no_window=True)
         if folder_path:
             window["-FOLDER-"].update(folder_path)
-            run_size_check(folder_path)  # Use the existing function to process the folder
+            run_size_check(folder_path)
             table_data = window["-SIZE_TABLE-"].get()
             original_size_table_data = table_data
             update_page2_data = True
@@ -5437,7 +5437,7 @@ while True:
         # Check if the file exists before proceeding
         if not os.path.isfile(file_path):
             sg.popup_error(f"The selected golden file '{file_path}' does not exist.")
-            continue  # Skip further processing if file is missing
+            continue
 
         # Show the loading window as a modal
         loading_layout = [[sg.Text("Loading...", font=("Helvetica", 16), justification="center")]]
@@ -5509,7 +5509,7 @@ while True:
                     sg.popup_ok(f"Exporting registry as .json file to {export_file_path}", title="Export Successful")
                     merged_current_registry_data("current_pc_registry_data_exported.json")
                     exported_file = "current_pc_registry_data_exported.json"
-                    shutil.move(exported_file, export_file_path)  # Save the exported JSON to the selected path
+                    shutil.move(exported_file, export_file_path)
 
             else:
                 sg.popup_ok("No folder or file is selected", title="Cancel")
@@ -6169,7 +6169,7 @@ while True:
 
                             try:
                                 # Retrieve installed registry and JSON data
-                                installed_registry = read_installed_registry()  # Replace with your function to read installed registry keys
+                                installed_registry = read_installed_registry()
                                 current_path = get_file_path()
                                 json_registry = load_registry_from_json2(current_path)
 
@@ -6290,7 +6290,7 @@ while True:
                 write_into_event_log(f"[Page 4: Registry Editor] This file path has been chosen: {file_path}")
                 update_editor_gui(file_path)
 
-                window['-RESTORE_REV-'].update(disabled=False)  # Enable the restore button
+                window['-RESTORE_REV-'].update(disabled=False)
 
         elif values["Dropdown2"] == "Semicon":
             join_path = os.path.join("Golden File", "sample-semicon.json")
@@ -6772,10 +6772,10 @@ while True:
             if selected_golden_data:
                 # Log deleted registry details
                 for entry in selected_golden_data:
-                    registry_key = entry[0]  # Registry Path
-                    registry_name = entry[1]  # Registry Name
-                    registry_type = entry[3]  # Registry Type
-                    registry_data = entry[2]  # Registry Data
+                    registry_key = entry[0]
+                    registry_name = entry[1]
+                    registry_type = entry[3]
+                    registry_data = entry[2]
                     log_deleted_registry_key(registry_key, registry_name, registry_type, registry_data)
 
                 # Write the deleted entries to the edit temp file
@@ -6823,7 +6823,7 @@ while True:
 
     if event == "-SAVE_GOLDEN_FILE-":
         # Call makeWinSave when the Save button is clicked
-        save_status = makeWinSave("Save Registry Changes")  # Opens save summary page and handles save/discard actions
+        save_status = makeWinSave("Save Registry Changes")
 
         # Check the result of makeWinSave to determine if changes were saved or discarded
         if save_status == "saved":
@@ -6831,8 +6831,8 @@ while True:
             # Reset indicators for unsaved changes after saving
             table_changed = False
             window['-SAVE_GOLDEN_FILE-'].metadata = False
-            window['-SAVE_GOLDEN_FILE-'].update(disabled=True)  # Disable Save button
-            window['-BROWSE2-'].update(disabled=False)  # Re-enable Browse button
+            window['-SAVE_GOLDEN_FILE-'].update(disabled=True)
+            window['-BROWSE2-'].update(disabled=False)
 
         elif save_status == "discarded":
             sg.popup("Changes discarded successfully.", title="Discard Confirmation")
@@ -6840,8 +6840,8 @@ while True:
             # Reset indicators for unsaved changes after discarding
             table_changed = False
             window['-SAVE_GOLDEN_FILE-'].metadata = False
-            window['-SAVE_GOLDEN_FILE-'].update(disabled=True)  # Disable Save button
-            window['-BROWSE2-'].update(disabled=False)  # Re-enable Browse button
+            window['-SAVE_GOLDEN_FILE-'].update(disabled=True)
+            window['-BROWSE2-'].update(disabled=False)
 
         elif save_status == "closed_without_action":
             # No changes were saved or discarded; do nothing with the flags
@@ -6861,7 +6861,7 @@ while True:
                 "Select a backup file to restore",
                 default_path=backup_folder,
                 file_types=(("JSON Files", "*.json"),),
-                no_window=True  # No additional window prompt
+                no_window=True
             )
 
             # Check if the user selected a file
@@ -6869,9 +6869,9 @@ while True:
                 try:
                     # Get the current golden file path
                     file_name = os.path.basename(file_path).replace(".json",
-                                                                    "")  # Remove any trailing .json if it exists
+                                                                    "")
                     golden_file_path = os.path.join("Golden File", f"{file_name}.json")
-                    action_temp_path = os.path.join("data", f"{file_name}_action.temp")  # Create a temp action file
+                    action_temp_path = os.path.join("data", f"{file_name}_action.temp")
 
                     if os.path.exists(golden_file_path):
                         # Step 2: Compare the current golden file with the selected rev file and create action.temp
@@ -7119,12 +7119,12 @@ while True:
 
     # Page 4 Search event handler
     if event in ("\r", "-SEARCH_EDITOR-"):
-        search_text_page4 = values["-SEARCH_EDITOR-"].strip().lower()  # Ensure the correct search variable is used
+        search_text_page4 = values["-SEARCH_EDITOR-"].strip().lower()
         table_data = window["-TABLE_EDITOR-"].get()
         perform_editor_search(search_text_page4, table_data)
 
         # If search is empty, reload the table
-        if not search_text_page4:  # Ensure the correct variable is used here
+        if not search_text_page4:
             file_path = get_file_path()
             update_editor_gui(file_path)
 
